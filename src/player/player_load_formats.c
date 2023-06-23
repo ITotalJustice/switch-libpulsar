@@ -88,7 +88,7 @@ PLSR_RC plsrPlayerLoadStream(const PLSR_BFSTM* bfstm, PLSR_PlayerSoundId* out) {
 	loadInfo.layout.blocks.lastBlockPadding = streamInfo.lastBlockSizeWithPadding - streamInfo.lastBlockSize;
 
 	loadInfo.ar = &bfstm->ar;
-	loadInfo.looping = streamInfo.looping;
+	loadInfo.looping = true;//streamInfo.looping;
 	loadInfo.sampleRate = streamInfo.sampleRate;
 	loadInfo.sampleCount = streamInfo.sampleCount;
 	loadInfo.channelCount = plsrBFSTMChannelCount(bfstm);
