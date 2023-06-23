@@ -186,4 +186,30 @@ PLSR_RC plsrPlayerSetVolume(PLSR_PlayerSoundId id, float volume) {
 	return PLSR_RC_OK;
 }
 
+bool plsrPlayerIsPlaying(PLSR_PlayerSoundId id) {
+	if(id == PLSR_PLAYER_INVALID_SOUND) {
+		return false;
+	}
+
+	PLSR_PlayerSound* sound = (PLSR_PlayerSound*)id;
+	for(unsigned int i = 0; i < sound->channelCount; i++) {
+		return audrvVoiceIsPlaying(&g_instance->driver, sound->channels[i].voiceId);
+	}
+
+	return false;
+}
+
+bool plsrPlayerIsPaused(PLSR_PlayerSoundId id) {
+	if(id == PLSR_PLAYER_INVALID_SOUND) {
+		return false;
+	}
+
+	PLSR_PlayerSound* sound = (PLSR_PlayerSound*)id;
+	for(unsigned int i = 0; i < sound->channelCount; i++) {
+		return audrvVoiceIsPaused(&g_instance->driver, sound->channels[i].voiceId);
+	}
+
+	return false;
+}
+
 #endif

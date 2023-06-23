@@ -87,3 +87,6 @@ PLSR_RC plsrPlayerSetPitch(PLSR_PlayerSoundId id, float pitch);
 
 /// Set sound volume factor (effective next time it's played)
 PLSR_RC plsrPlayerSetVolume(PLSR_PlayerSoundId id, float volume);
+
+bool plsrPlayerIsPlaying(PLSR_PlayerSoundId id);
+bool plsrPlayerIsPaused(PLSR_PlayerSoundId id);
