@@ -86,6 +86,9 @@ PLSR_ArchiveFileHandle plsrArchiveFileOpen(const char* path, bool storePath) {
 		return PLSR_INVALID_ARCHIVE_FILE_HANDLE;
 	}
 
+	// increase buffer size to drastically speed up reads.
+	setvbuf(f, NULL, _IOFBF, 1024 * 256);
+
 	PLSR_ArchiveSharedReader* reader = (PLSR_ArchiveSharedReader*)malloc(sizeof(PLSR_ArchiveSharedReader));
 
 	if(reader == NULL) {
