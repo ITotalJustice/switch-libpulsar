@@ -64,6 +64,10 @@ PLSR_RC plsrPlayerLoadWave(const PLSR_BFWAV* bfwav, PLSR_PlayerSoundId* out) {
 }
 
 PLSR_RC plsrPlayerLoadStream(const PLSR_BFSTM* bfstm, PLSR_PlayerSoundId* out) {
+	return plsrPlayerLoadStreamEx(bfstm, out, false);
+}
+
+PLSR_RC plsrPlayerLoadStreamEx(const PLSR_BFSTM* bfstm, PLSR_PlayerSoundId* out, bool force_looping) {
 	PLSR_PlayerSoundLoadInfo loadInfo;
 	PLSR_BFSTMInfo streamInfo;
 
@@ -88,7 +92,7 @@ PLSR_RC plsrPlayerLoadStream(const PLSR_BFSTM* bfstm, PLSR_PlayerSoundId* out) {
 	loadInfo.layout.blocks.lastBlockPadding = streamInfo.lastBlockSizeWithPadding - streamInfo.lastBlockSize;
 
 	loadInfo.ar = &bfstm->ar;
-	loadInfo.looping = true;//streamInfo.looping;
+	loadInfo.looping = streamInfo.looping || force_looping;
 	loadInfo.sampleRate = streamInfo.sampleRate;
 	loadInfo.sampleCount = streamInfo.sampleCount;
 	loadInfo.channelCount = plsrBFSTMChannelCount(bfstm);
