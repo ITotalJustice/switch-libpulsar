@@ -41,6 +41,7 @@ typedef struct {
 
 /// @copydoc plsrArchiveOpen
 PLSR_RC plsrBFSTMOpen(const char* path, PLSR_BFSTM* out);
+PLSR_RC plsrBFSTMOpenMem(const void* buf, size_t size, PLSR_BFSTM* out);
 
 /// @copydoc plsrArchiveOpenInside
 PLSR_RC plsrBFSTMOpenInside(const PLSR_Archive* ar, u32 offset, PLSR_BFSTM* out);

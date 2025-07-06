@@ -80,8 +80,7 @@ static char* _getContextPath(const char* path) {
 	return context;
 }
 
-PLSR_ArchiveFileHandle plsrArchiveFileOpen(const char* path, bool storePath) {
-	FILE* f = fopen(path, "r");
+static PLSR_ArchiveFileHandle plsrArchiveOpenInternal(FILE* f, const char* path, bool storePath) {
 	if(f == NULL) {
 		return PLSR_INVALID_ARCHIVE_FILE_HANDLE;
 	}
@@ -101,6 +100,14 @@ PLSR_ArchiveFileHandle plsrArchiveFileOpen(const char* path, bool storePath) {
 	reader->refs = 1;
 
 	return reader;
+}
+
+PLSR_ArchiveFileHandle plsrArchiveFileOpen(const char* path, bool storePath) {
+	return plsrArchiveOpenInternal(fopen(path, "rb"), path, storePath);
+}
+
+PLSR_ArchiveFileHandle plsrArchiveMemOpen(const void* buf, size_t size) {
+	return plsrArchiveOpenInternal(fmemopen((void*)buf, size, "rb"), NULL, false);
 }
 
 void plsrArchiveFileClose(PLSR_ArchiveFileHandle handle) {

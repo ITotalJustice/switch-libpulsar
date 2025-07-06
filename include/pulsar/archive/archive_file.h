@@ -18,6 +18,7 @@ typedef struct {
 typedef const PLSR_ArchiveSharedReader* PLSR_ArchiveFileHandle;
 
 PLSR_ArchiveFileHandle plsrArchiveFileOpen(const char* path, bool storePath);
+PLSR_ArchiveFileHandle plsrArchiveMemOpen(const void* buf, size_t size);
 
 void plsrArchiveFileClose(PLSR_ArchiveFileHandle handle);
 PLSR_ArchiveFileHandle plsrArchiveFileCloneHandle(PLSR_ArchiveFileHandle handle);

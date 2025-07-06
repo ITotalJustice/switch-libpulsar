@@ -86,6 +86,8 @@ NX_INLINE PLSR_RC plsrArchiveOpen(const char* path, PLSR_Archive* out) {
 	return plsrArchiveOpenEx(path, out, false);
 }
 
+PLSR_RC plsrArchiveOpenMem(const void* buf, size_t size, PLSR_Archive* out);
+
 /// Open from inside another archive at specified offset
 PLSR_RC plsrArchiveOpenInside(const PLSR_Archive* ar, u32 offset, PLSR_Archive* out);
 

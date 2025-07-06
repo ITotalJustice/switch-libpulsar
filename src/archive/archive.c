@@ -12,6 +12,18 @@ PLSR_RC plsrArchiveOpenEx(const char* path, PLSR_Archive* out, bool storePath) {
 	return PLSR_RC_OK;
 }
 
+PLSR_RC plsrArchiveOpenMem(const void* buf, size_t size, PLSR_Archive* out) {
+	PLSR_ArchiveFileHandle handle = plsrArchiveMemOpen(buf, size);
+	if(handle == PLSR_INVALID_ARCHIVE_FILE_HANDLE) {
+		return PLSR_ResultType_FileRead;
+	}
+
+	out->handle = handle;
+	out->offset = 0;
+
+	return PLSR_RC_OK;
+}
+
 PLSR_RC plsrArchiveOpenInside(const PLSR_Archive* ar, u32 offset, PLSR_Archive* out) {
 	if(ar->handle == PLSR_INVALID_ARCHIVE_FILE_HANDLE) {
 		return PLSR_ResultType_FileRead;

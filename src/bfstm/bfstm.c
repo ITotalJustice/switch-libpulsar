@@ -78,6 +78,22 @@ PLSR_RC plsrBFSTMOpen(const char* path, PLSR_BFSTM* out) {
 	return rc;
 }
 
+PLSR_RC plsrBFSTMOpenMem(const void* buf, size_t size, PLSR_BFSTM* out) {
+	memset(out, 0, sizeof(PLSR_BFSTM));
+
+	PLSR_RC rc = plsrArchiveOpenMem(buf, size, &out->ar);
+
+	if(PLSR_RC_SUCCEEDED(rc)) {
+		rc = _BFSTMInit(out);
+	}
+
+	if(PLSR_RC_FAILED(rc)) {
+		plsrBFSTMClose(out);
+	}
+
+	return rc;
+}
+
 PLSR_RC plsrBFSTMOpenInside(const PLSR_Archive* ar, u32 offset, PLSR_BFSTM* out) {
 	memset(out, 0, sizeof(PLSR_BFSTM));
 
