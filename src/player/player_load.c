@@ -18,7 +18,7 @@ static int _getFreeVoiceId(const PLSR_Player* player) {
 }
 
 static PLSR_RC _readChannel(const PLSR_PlayerSoundLoadInfo* loadInfo, const PLSR_PlayerSoundLoadChannelLayoutInfo* layoutInfo, size_t dataSize, PLSR_PlayerSound* sound) {
-	for(unsigned int channel = 0; channel < sound->channelCount; channel++) {
+	for(unsigned int channel = 0; channel < sound->channelCount && channel < PLSR_PLAYER_MAX_CHANNELS; channel++) {
 		_LOCAL_TRY(plsrArchiveReadAt(loadInfo->ar, layoutInfo->offsets[channel], sound->channels[channel].mempool, dataSize));
 	}
 
@@ -31,7 +31,7 @@ static PLSR_RC _readBlocks(const PLSR_PlayerSoundLoadInfo* loadInfo, const PLSR_
 	size_t lastBlockSize = dataSize - blockCount * layoutInfo->blockSize;
 
 	for(size_t blockReadCount = 0; blockReadCount < blockCount; blockReadCount++) {
-		for(unsigned int channel = 0; channel < loadInfo->channelCount; channel++) {
+		for(unsigned int channel = 0; channel < loadInfo->channelCount && channel < PLSR_PLAYER_MAX_CHANNELS; channel++) {
 			if(blockReadCount == 0) {
 				channelData[channel] = (u8*)sound->channels[channel].mempool;
 			}
@@ -48,7 +48,7 @@ static PLSR_RC _readBlocks(const PLSR_PlayerSoundLoadInfo* loadInfo, const PLSR_
 
 	if(lastBlockSize != 0) {
 		u32 base = layoutInfo->firstBlockOffset + layoutInfo->blockSize * (blockCount * loadInfo->channelCount);
-		for(unsigned int channel = 0; channel < sound->channelCount; channel++) {
+		for(unsigned int channel = 0; channel < sound->channelCount && channel < PLSR_PLAYER_MAX_CHANNELS; channel++) {
 			_LOCAL_TRY(plsrArchiveReadAt(
 				loadInfo->ar,
 				base + ((lastBlockSize + layoutInfo->lastBlockPadding) * channel),

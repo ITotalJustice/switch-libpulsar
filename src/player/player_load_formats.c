@@ -37,14 +37,14 @@ PLSR_RC plsrPlayerLoadWave(const PLSR_BFWAV* bfwav, PLSR_PlayerSoundId* out) {
 	loadInfo.looping = waveInfo.looping;
 	loadInfo.sampleRate = waveInfo.sampleRate;
 	loadInfo.sampleCount = waveInfo.sampleCount;
-	loadInfo.channelCount = waveInfo.channelInfoTable.info.count > PLSR_PLAYER_MAX_CHANNELS ? PLSR_PLAYER_MAX_CHANNELS : waveInfo.channelInfoTable.info.count;
+	loadInfo.channelCount = waveInfo.channelInfoTable.info.count;
 	loadInfo.dataSize = 0;
 
 	if(waveInfo.looping) {
 		loadInfo.loopStartSample = waveInfo.loopStartSample;
 	}
 
-	for(u32 channel = 0; channel < loadInfo.channelCount; channel++) {
+	for(u32 channel = 0; channel < loadInfo.channelCount && channel < PLSR_PLAYER_MAX_CHANNELS; channel++) {
 		PLSR_BFWAVChannelInfo channelInfo;
 		_LOCAL_TRY(plsrBFWAVReadChannelInfo(bfwav, &waveInfo.channelInfoTable, channel, &channelInfo));
 
@@ -96,7 +96,6 @@ PLSR_RC plsrPlayerLoadStreamEx(const PLSR_BFSTM* bfstm, PLSR_PlayerSoundId* out,
 	loadInfo.sampleRate = streamInfo.sampleRate;
 	loadInfo.sampleCount = streamInfo.sampleCount;
 	loadInfo.channelCount = plsrBFSTMChannelCount(bfstm);
-	loadInfo.channelCount = loadInfo.channelCount > PLSR_PLAYER_MAX_CHANNELS ? PLSR_PLAYER_MAX_CHANNELS : loadInfo.channelCount;
 
 	u32 fullBlockCount = streamInfo.blockCount > 1 ? streamInfo.blockCount - 1 : 1;
 	loadInfo.dataSize = fullBlockCount * streamInfo.blockSize + streamInfo.lastBlockSize;
