@@ -96,6 +96,7 @@ PLSR_RC plsrPlayerLoadStreamEx(const PLSR_BFSTM* bfstm, PLSR_PlayerSoundId* out,
 	loadInfo.sampleRate = streamInfo.sampleRate;
 	loadInfo.sampleCount = streamInfo.sampleCount;
 	loadInfo.channelCount = plsrBFSTMChannelCount(bfstm);
+	loadInfo.channelCount = loadInfo.channelCount > PLSR_PLAYER_MAX_CHANNELS ? PLSR_PLAYER_MAX_CHANNELS : loadInfo.channelCount;
 
 	u32 fullBlockCount = streamInfo.blockCount > 1 ? streamInfo.blockCount - 1 : 1;
 	loadInfo.dataSize = fullBlockCount * streamInfo.blockSize + streamInfo.lastBlockSize;
