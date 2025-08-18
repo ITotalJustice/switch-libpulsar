@@ -38,6 +38,7 @@ typedef struct {
 
 /// @copydoc plsrArchiveOpen
 PLSR_RC plsrBFWAVOpen(const char* path, PLSR_BFWAV* out);
+PLSR_RC plsrBFWAVOpenMem(const void* buf, size_t size, PLSR_BFWAV* out);
 
 /// @copydoc plsrArchiveOpenInside
 PLSR_RC plsrBFWAVOpenInside(const PLSR_Archive* ar, u32 offset, PLSR_BFWAV* out);

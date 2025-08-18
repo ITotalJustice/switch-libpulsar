@@ -45,6 +45,22 @@ PLSR_RC plsrBFWAVOpen(const char* path, PLSR_BFWAV* out) {
 	return rc;
 }
 
+PLSR_RC plsrBFWAVOpenMem(const void* buf, size_t size, PLSR_BFWAV* out) {
+	memset(out, 0, sizeof(PLSR_BFWAV));
+
+	PLSR_RC rc = plsrArchiveOpenMem(buf, size, &out->ar);
+
+	if(PLSR_RC_SUCCEEDED(rc)) {
+		rc = _BFWAVInit(out);
+	}
+
+	if(PLSR_RC_FAILED(rc)) {
+		plsrBFWAVClose(out);
+	}
+
+	return rc;
+}
+
 PLSR_RC plsrBFWAVOpenInside(const PLSR_Archive* ar, u32 offset, PLSR_BFWAV* out) {
 	memset(out, 0, sizeof(PLSR_BFWAV));
 
